@@ -33,14 +33,15 @@
 			email: $('#email').val(),
 			subject: $('#subject').val(),
 			message: $('#message').val(),
-			//_replyto: 'noreply@noreply.com',  // This will be used as the reply-to
-			//_cc: 'kaaka.roots@gmail.com',       // Change to actual CC recipient
-			_honey: '',                       // Anti-spam field
-			_captcha: 'false'                 // Disable CAPTCHA
+			_replyto: $('#email').val(),  		// This will be used as the reply-to
+			//_cc: 'kaaka.roots@gmail.com',		// Change to actual CC recipient
+			_honey: '',							// Anti-spam field
+			_captcha: 'false'					// Disable CAPTCHA
 		};
 
 		$.ajax({
-		url: 'https://formsubmit.co/ajax/kaaka.roots@gmail.com',
+		//url: 'https://formsubmit.co/ajax/kaaka.roots@gmail.com',
+		url: 'https://formsubmit.co/ajax/vinz.iandG@gmail.com',
 		method: 'POST',
 		data: formData,
 		dataType: 'json',
@@ -50,7 +51,7 @@
 					\nEmail: ${formData.email}
 					\nSubject: ${formData.subject}
 					\nMessage: ${formData.message}`);
-					
+
 				$('#formMessage1').html('<span style="color:white;">Message sent successfully!</span>');
 				$('#formMessage2').html('<span style="color:white;">Message sent successfully!</span>')
 				$('#contactForm')[0].reset();
