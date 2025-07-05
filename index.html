@@ -10,11 +10,20 @@
 	<body class="is-preload homepage">
 		<div id="page-wrapper">
 
+			<!-- Change the ID to avoid conflict -->
+			<div id="header-placeholder"></div>
+			<script>
+				fetch('layout/header.html')
+				.then(response => response.text())
+				.then(data => {
+					document.getElementById('header-placeholder').innerHTML = data;
+				});
+			</script>
+
 			<!-- Header -->
-				<div id="header-wrapper">
+				<!-- <div id="header-wrapper">
 					<header id="header" class="container">
 
-						<!-- Logo -->
 							<div id="logo">
 								<div>
 									<h1><a href="website2/index.html">Ian De Gracia</a></h1>
@@ -27,7 +36,6 @@
 								</div>
 							</div>
 
-						<!-- Nav -->
 							<nav id="nav">
 								<ul>
 									<li class="current"><a href="index.html">Welcome</a></li>
@@ -55,7 +63,7 @@
 							</nav>
 
 					</header>
-				</div>
+				</div> -->
 
 			<!-- Banner -->
 				<div id="banner-wrapper">
@@ -200,6 +208,9 @@
 					</div>
 				</div>
 
+				<!-- Change the ID to avoid conflict -->
+  				<div id="footer-placeholder"></div>
+
 			<!-- Footer -->
 				<div id="footer-wrapper">
 					<footer id="footer" class="container">
@@ -210,7 +221,7 @@
 									<section class="widget links">
 										<h3>Random Stuff</h3>
 										<ul class="style2">
-											<li><a href="#">About Me</a></li>
+											<li><a href="website2/index.html">About Me</a></li>
 											<li><a href="index.html">Website 1</a></li>
 											<li><a href="website2/index.html">Website 2</a></li>
 											<li><a href="#">Website 3</a></li>
@@ -268,8 +279,7 @@
 						</div>
 					</footer>
 				</div>
-
-			</div>
+		</div>
 
 		<!-- Scripts -->
 
