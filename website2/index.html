@@ -1,9 +1,4 @@
 <!DOCTYPE HTML>
-<!--
-	Miniport by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
 <html>
 	<head>
 		<title>Ian De Gracia</title>
@@ -149,21 +144,31 @@
 						<p>Email me: vinz.iandG@gmail.com</p>
 					</header>
 					<div class="row">
+
+						<!-- Response message -->
+						<div id="formMessage1" style="margin-top: 20px;"></div>
+
 						<div class="col-12">
-							<form method="post" action="#">
+							<form id="contactForm" method="POST">
 								<div class="row">
 									<div class="col-6 col-12-small">
-										<input type="text" name="name" id="name" placeholder="Name" />
+										<input type="text" name="name" id="name" placeholder="Name" required/>
 									</div>
 									<div class="col-6 col-12-small">
-										<input type="text" name="email" id="email" placeholder="Email" />
+										<input type="text" name="email" id="email" placeholder="Email" required/>
 									</div>
 									<div class="col-12">
-										<input type="text" name="subject" id="subject" placeholder="Subject" />
+										<input type="text" name="subject" id="subject" placeholder="Subject" required/>
 									</div>
 									<div class="col-12">
-										<textarea name="message" id="message" placeholder="Message"></textarea>
+										<textarea name="message" id="message" placeholder="Message" required></textarea>
 									</div>
+									<!-- Optional anti-spam field -->
+									<input type="text" name="_honey" style="display:none">
+
+									<!-- Optional: disable CAPTCHA -->
+									<input type="hidden" name="_captcha" value="false">
+
 									<div class="col-12">
 										<ul class="actions">
 											<li><input type="submit" value="Send Message" /></li>
@@ -172,6 +177,10 @@
 									</div>
 								</div>
 							</form>
+
+							<!-- Response message -->
+							<div id="formMessage2" style="margin-top: 20px;"></div>
+							
 						</div>
 						<div class="col-12">
 							<hr />

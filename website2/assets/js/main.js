@@ -1,9 +1,3 @@
-/*
-	Miniport by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
-*/
-
 (function($) {
 
 	var	$window = $(window),
@@ -30,5 +24,42 @@
 			speed: 1000,
 			offset: function() { return $nav.height(); }
 		});
+
+	$('#contactForm').on('submit', function (e) {
+		e.preventDefault();
+
+		const formData = {
+			name: $('#name').val(),
+			email: $('#email').val(),
+			subject: $('#subject').val(),
+			message: $('#message').val(),
+			//_replyto: 'noreply@noreply.com',  // This will be used as the reply-to
+			//_cc: 'kaaka.roots@gmail.com',       // Change to actual CC recipient
+			_honey: '',                       // Anti-spam field
+			_captcha: 'false'                 // Disable CAPTCHA
+		};
+
+		$.ajax({
+		url: 'https://formsubmit.co/ajax/kaaka.roots@gmail.com',
+		method: 'POST',
+		data: formData,
+		dataType: 'json',
+		success: function(response) {
+				//display to confirm data
+				console.log(`Submitted:\nName: ${formData.name}
+					\nEmail: ${formData.email}
+					\nSubject: ${formData.subject}
+					\nMessage: ${formData.message}`);
+					
+				$('#formMessage1').html('<span style="color:white;">Message sent successfully!</span>');
+				$('#formMessage2').html('<span style="color:white;">Message sent successfully!</span>')
+				$('#contactForm')[0].reset();
+			},
+			error: function(error) {
+				$('#formMessage1').html('<span style="color:red;">Failed to send message. Please try again later.</span>');
+				$('#formMessage2').html('<span style="color:red;">Failed to send message. Please try again later.</span>');
+			}
+		});		
+    });
 
 })(jQuery);
