@@ -2546,6 +2546,9 @@ input, select, textarea {
 
 	  #profileImg{
 		margin: 10px;
+		height: 100px;
+    width: 100px;
+    border-radius: 50px;
 	  }
 
 			.image.left {
@@ -2681,6 +2684,7 @@ input, select, textarea {
 			#logo h1 {
 				font-size: 2.75em;
 				padding: 0.2em 0.275em;
+				align-content: flex-end;
 			}
 
 			#logo span {
