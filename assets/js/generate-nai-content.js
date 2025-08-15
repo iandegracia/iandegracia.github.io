@@ -95,3 +95,5 @@ if (require.main === module) {
         console.log("AI response:", result);
     })();
 }
+
+window.askAI = askAI;
