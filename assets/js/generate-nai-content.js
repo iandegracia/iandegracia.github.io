@@ -87,11 +87,4 @@ async function askAI(history) {
     }
 }
 
-if (require.main === module) {
-    (async () => {
-        const result = await askAI([{ role: 'user', content: 'Hello AI' }]);
-        console.log("AI response:", result);
-    })();
-}
-
 window.askAI = askAI;
