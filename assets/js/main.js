@@ -217,7 +217,6 @@
 
   async function askAI(history){
     if(USE_DIRECT_OPENAI){
-      //const key = localStorage.getItem('OPENAI_API_KEY');
 	  const key = process.env.OPENAI_API_KEY;
       if(!key) throw new Error('No OPENAI_API_KEY found in localStorage. Add it for local testing.');
 
