@@ -1,5 +1,3 @@
-import fetch from 'node-fetch'; 
- 
 const OPENAI_MODEL = 'gpt-4';
 const SYSTEM_PROMPT = 'You are a helpful assistant.';
 const PROXY_URL = 'http://localhost:3000/proxy'; 
