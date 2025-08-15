@@ -1,6 +1,13 @@
   async function askAI(history){
     if(USE_DIRECT_OPENAI){
 	  const key = process.env.OPENAI_API_KEY;
+              if (!key) {
+            console.error("OPENAI_API_KEY is not set!");
+        } else {
+            console.log("OPENAI_API_KEY is set");
+            console.log("Key starts with:", key.slice(0, 4) + "...");
+        }
+
       if(!key) throw new Error('No OPENAI_API_KEY found in localStorage. Add it for local testing.');
 
 	  const key2 = process.env.CLAUDE_API_KEY;
