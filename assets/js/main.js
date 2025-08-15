@@ -109,111 +109,111 @@
 
 })(jQuery);
 
-// // ============================
-//   // GPT POPUP CHAT WIDGET
-//   // ============================
+// ============================
+  // GPT POPUP CHAT WIDGET
+  // ============================
 
-//   // ==== CONFIG ====
-//   const USE_DIRECT_OPENAI = true; // set to true only for local testing; never commit with true
-//   const OPENAI_MODEL = 'gpt-4o-mini';
-//   const PROXY_URL = '/api/chat'; // your serverless function or worker URL
-//   const SYSTEM_PROMPT = 'You are a helpful website assistant. Keep answers concise and friendly.';
+  // ==== CONFIG ====
+  const USE_DIRECT_OPENAI = true; // set to true only for local testing; never commit with true
+  const OPENAI_MODEL = 'gpt-4o-mini';
+  const PROXY_URL = '/api/chat'; // your serverless function or worker URL
+  const SYSTEM_PROMPT = 'You are a helpful website assistant. Keep answers concise and friendly.';
 
-//   // If you insist on direct testing, run this once in your dev console:
-//   // localStorage.setItem('OPENAI_API_KEY', 'sk-...');
+  // If you insist on direct testing, run this once in your dev console:
+  // localStorage.setItem('OPENAI_API_KEY', 'sk-...');
 
-//   // ==== WIDGET LOGIC ====
-//   const $ = sel => document.querySelector(sel);
-//   const logEl = $('#gpt-log');
-//   const panelEl = $('#gpt-panel');
-//   const launcher = $('#gpt-launcher');
-//   const form = $('#gpt-form');
-//   const input = $('#gpt-input');
-//   const clearBtn = $('#gpt-clear');
-//   const closeBtn = $('#gpt-close');
+  // ==== WIDGET LOGIC ====
+  const $ = sel => document.querySelector(sel);
+  const logEl = $('#gpt-log');
+  const panelEl = $('#gpt-panel');
+  const launcher = $('#gpt-launcher');
+  const form = $('#gpt-form');
+  const input = $('#gpt-input');
+  const clearBtn = $('#gpt-clear');
+  const closeBtn = $('#gpt-close');
 
-//   const HISTORY_KEY = 'gptWidgetHistory:v1';
-//   let messages = loadHistory();
-//   if(messages.length){ renderAll(); }
+  const HISTORY_KEY = 'gptWidgetHistory:v1';
+  let messages = loadHistory();
+  if(messages.length){ renderAll(); }
 
-//   launcher.addEventListener('click', ()=>{
-//     panelEl.style.display = panelEl.style.display === 'block' ? 'none' : 'block';
-//     if(panelEl.style.display === 'block') input.focus();
-//   });
-//   closeBtn.addEventListener('click', ()=> panelEl.style.display = 'none');
+  launcher.addEventListener('click', ()=>{
+    panelEl.style.display = panelEl.style.display === 'block' ? 'none' : 'block';
+    if(panelEl.style.display === 'block') input.focus();
+  });
+  closeBtn.addEventListener('click', ()=> panelEl.style.display = 'none');
 
-//   clearBtn.addEventListener('click', ()=>{
-//     if(confirm('Clear this conversation?')){
-//       messages = [];
-//       saveHistory();
-//       logEl.innerHTML = '<div class="gpt-empty">Conversation cleared.</div>';
-//     }
-//   });
+  clearBtn.addEventListener('click', ()=>{
+    if(confirm('Clear this conversation?')){
+      messages = [];
+      saveHistory();
+      logEl.innerHTML = '<div class="gpt-empty">Conversation cleared.</div>';
+    }
+  });
 
-//   form.addEventListener('submit', async (e)=>{
-//     e.preventDefault();
-//     const text = input.value.trim();
-//     if(!text) return;
+  form.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    const text = input.value.trim();
+    if(!text) return;
 
-//     appendBubble(text, 'me');
-//     input.value = '';
+    appendBubble(text, 'me');
+    input.value = '';
 
-//     messages.push({role:'user', content:text});
-//     saveHistory();
+    messages.push({role:'user', content:text});
+    saveHistory();
 
-//     const stopTyping = showTyping();
-//     try{
-//       const reply = await askAI(messages);
-//       stopTyping();
-//       appendBubble(reply, 'ai');
-//       messages.push({role:'assistant', content:reply});
-//       saveHistory();
-//     }catch(err){
-//       stopTyping();
-//       appendBubble('⚠️ Error: '+ (err?.message || 'Failed to reach AI service.'), 'ai');
-//     }
-//   });
+    const stopTyping = showTyping();
+    try{
+      const reply = await askAI(messages);
+      stopTyping();
+      appendBubble(reply, 'ai');
+      messages.push({role:'assistant', content:reply});
+      saveHistory();
+    }catch(err){
+      stopTyping();
+      appendBubble('⚠️ Error: '+ (err?.message || 'Failed to reach AI service.'), 'ai');
+    }
+  });
 
-//   function appendBubble(text, who){
-//     const row = document.createElement('div');
-//     row.className = 'gpt-row ' + (who==='me'?'me':'');
-//     const bubble = document.createElement('div');
-//     bubble.className = 'gpt-bubble ' + (who==='me'?'me':'ai');
-//     bubble.innerText = text;
-//     row.appendChild(bubble);
-//     logEl.querySelector('.gpt-empty')?.remove();
-//     logEl.appendChild(row);
-//     logEl.scrollTop = logEl.scrollHeight;
-//   }
+  function appendBubble(text, who){
+    const row = document.createElement('div');
+    row.className = 'gpt-row ' + (who==='me'?'me':'');
+    const bubble = document.createElement('div');
+    bubble.className = 'gpt-bubble ' + (who==='me'?'me':'ai');
+    bubble.innerText = text;
+    row.appendChild(bubble);
+    logEl.querySelector('.gpt-empty')?.remove();
+    logEl.appendChild(row);
+    logEl.scrollTop = logEl.scrollHeight;
+  }
 
-//   function renderAll(){
-//     logEl.innerHTML = '';
-//     for(const m of messages){ appendBubble(m.content, m.role==='user'?'me':'ai'); }
-//   }
+  function renderAll(){
+    logEl.innerHTML = '';
+    for(const m of messages){ appendBubble(m.content, m.role==='user'?'me':'ai'); }
+  }
 
-//   function showTyping(){
-//     const row = document.createElement('div');
-//     row.className = 'gpt-row';
-//     const bubble = document.createElement('div');
-//     bubble.className = 'gpt-bubble ai';
-//     bubble.innerHTML = '<span class="gpt-typing" aria-live="polite"><span></span><span></span><span></span></span>';
-//     row.appendChild(bubble);
-//     logEl.appendChild(row);
-//     logEl.scrollTop = logEl.scrollHeight;
-//     return ()=> { row.remove(); };
-//   }
+  function showTyping(){
+    const row = document.createElement('div');
+    row.className = 'gpt-row';
+    const bubble = document.createElement('div');
+    bubble.className = 'gpt-bubble ai';
+    bubble.innerHTML = '<span class="gpt-typing" aria-live="polite"><span></span><span></span><span></span></span>';
+    row.appendChild(bubble);
+    logEl.appendChild(row);
+    logEl.scrollTop = logEl.scrollHeight;
+    return ()=> { row.remove(); };
+  }
 
-//   function saveHistory(){
-//     try{ localStorage.setItem(HISTORY_KEY, JSON.stringify(messages)); }catch{}
-//   }
-//   function loadHistory(){
-//     try{
-//       const raw = localStorage.getItem(HISTORY_KEY);
-//       if(!raw) return [];
-//       const arr = JSON.parse(raw);
-//       return Array.isArray(arr) ? arr : [];
-//     }catch{ return []; }
-//   }
+  function saveHistory(){
+    try{ localStorage.setItem(HISTORY_KEY, JSON.stringify(messages)); }catch{}
+  }
+  function loadHistory(){
+    try{
+      const raw = localStorage.getItem(HISTORY_KEY);
+      if(!raw) return [];
+      const arr = JSON.parse(raw);
+      return Array.isArray(arr) ? arr : [];
+    }catch{ return []; }
+  }
 
 //   async function askAI(history){
 //     if(USE_DIRECT_OPENAI){
