@@ -4,7 +4,7 @@ const OPENAI_MODEL = 'gpt-4';
 const SYSTEM_PROMPT = 'You are a helpful assistant.';
 const PROXY_URL = 'http://localhost:3000/proxy'; 
 
-export async function askAI(history) {
+async function askAI(history) {
     const openaiKey = process.env.OPENAI_API_KEY;
     const claudeKey = process.env.CLAUDE_API_KEY;
 
