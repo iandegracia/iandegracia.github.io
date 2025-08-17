@@ -88,7 +88,7 @@ async function askAI(history) {
                 return data2.content?.[0]?.text?.trim() || 'Sorry, I did not understand that.';
             }            
             
-            const resGemini = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${geminiKey}`, {
+            const resGemini = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${geminiKey}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
