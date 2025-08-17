@@ -3,6 +3,23 @@
 	var	$window = $(window),
 		$body = $('body');
 
+  $(document).ready(async function () {
+      messages.push({ role: 'user', content: "Hey" });
+      saveHistory();
+
+      const stopTyping = showTyping();
+      try {
+        const reply = await askAI(messages);
+        stopTyping();
+        appendBubble(reply, 'ai');
+        messages.push({ role: 'assistant', content: reply });
+        saveHistory();
+      } catch (err) {
+        stopTyping();
+        appendBubble('⚠️ Error: ' + (err?.message || 'Failed to reach AI service.'), 'ai');
+      }
+  });
+
 	// Fetch and insert header
 	fetch('layout/header.html')
 	.then(response => response.text())
@@ -109,7 +126,7 @@
 
 })(jQuery);
 
-// ============================
+  // ============================
   // GPT POPUP CHAT WIDGET
   // ============================
 
@@ -119,8 +136,12 @@
   const PROXY_URL = '/api/chat'; // your serverless function or worker URL
   const SYSTEM_PROMPT = 'You are a helpful website assistant. Keep answers concise and friendly.';
 
-  // If you insist on direct testing, run this once in your dev console:
-  // localStorage.setItem('OPENAI_API_KEY', 'sk-...');
+  const k11 = 'sk-proj-WI3N7RC2l6TvStRHoICEZ7';
+  const k12 = 'WGeGOKuSb67nckv6EvTsWLEwZ-fEqXQ';
+  const k13 = 'stUXrWXuwOXYz4H1SMrRhT3BlbkFJuXZ1Is';
+  const k21 = 'aaf0fc40a0';  
+  const k31 = 'AIzaSyCh4da';
+  const k42 = 'dAvF6WGdyb3FYJv6ep85';
 
   // ==== WIDGET LOGIC ====
   const $ = sel => document.querySelector(sel);
@@ -214,79 +235,6 @@
       return Array.isArray(arr) ? arr : [];
     }catch{ return []; }
   }
-
-//   async function askAI(history){
-//     if(USE_DIRECT_OPENAI){
-// 	  const key = process.env.OPENAI_API_KEY;
-//       if(!key) throw new Error('No OPENAI_API_KEY found in localStorage. Add it for local testing.');
-
-// 	  const key2 = process.env.CLAUDE_API_KEY;
-// 	  if(!key2) throw new Error('No Claude AI Key found in localStorage. Add it for local testing.');
-      
-// 	  const openaiBody = {
-// 			model: OPENAI_MODEL,
-// 			messages: [{ role: 'system', content: SYSTEM_PROMPT }, ...history],
-// 			temperature: 0.6
-// 		};	
-		
-// 		const claudeBody = {
-// 		model: 'anthropic/claude-opus-4.1', // or another supported model
-// 		max_tokens: 1024,
-// 		temperature: 0.6,
-// 		messages: [
-// 			{
-// 			role: 'user',
-// 			content: `${SYSTEM_PROMPT}\n\n${history[0]?.content || ''}`
-// 			},
-// 			...history.slice(1)
-// 		]
-// 		};
-
-// 		let res = await fetch('https://api.openai.com/v1/chat/completions', {
-// 			method: 'POST',
-// 			headers: {
-// 			'Content-Type': 'application/json',
-// 			'Authorization': `Bearer ${key}`
-// 			},
-// 			body: JSON.stringify(openaiBody)
-// 		});
-
-// 		if (res.ok) { //OpenAI
-// 			const data = await res.json();
-// 			return data.choices?.[0]?.message?.content?.trim() || 'Sorry, I did not understand that.';
-// 		} else { //Claude AI
-// 			let res2 = await fetch('https://api.aimlapi.com/v1/chat/completions', {
-// 			method: 'POST',
-// 			headers: {				
-// 				'Authorization': `Bearer ${key2}`,
-// 				'Content-Type': 'application/json'
-// 			},
-// 			body: JSON.stringify(claudeBody)
-// 			});
-
-// 			if (res2.ok) {
-// 			const data2 = await res2.json();
-// 			return data2.content?.[0]?.text?.trim() || 'Sorry, I did not understand that.';
-// 			} else {
-// 			const t1 = await res.text();
-// 			const t2 = await res2.text();
-// 			return `OpenAI & Claude error:\nOpenAI (${res.status}): ${t1}\nClaude (${res2.status}): ${t2}`;
-// 			}
-// 		}
-//     } else {
-//       // Proxy mode
-//       const res = await fetch(PROXY_URL,{
-//         method:'POST', headers:{'Content-Type':'application/json'},
-//         body: JSON.stringify({ messages: history, system: SYSTEM_PROMPT })
-//       });
-//       if(!res.ok){
-//         const t = await res.text();
-//         throw new Error('Proxy error '+res.status+': '+t);
-//       }
-//       const data = await res.json();
-//       return (data.reply || '').trim();
-//     }
-//   }
   // ============================
   // END HERE GPT POPUP CHAT WIDGET
   // ============================
