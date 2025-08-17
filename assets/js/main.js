@@ -4,6 +4,7 @@
 		$body = $('body');
 
   $(document).ready(async function () {
+      launcher.click();
       messages.push({ role: 'user', content: "Hey" });
       saveHistory();
 
@@ -135,13 +136,10 @@
   const OPENAI_MODEL = 'gpt-4o-mini';
   const PROXY_URL = '/api/chat'; // your serverless function or worker URL
   const SYSTEM_PROMPT = 'You are a helpful website assistant. Keep answers concise and friendly.';
-
-  const k11 = 'sk-proj-WI3N7RC2l6TvStRHoICEZ7';
-  const k12 = 'WGeGOKuSb67nckv6EvTsWLEwZ-fEqXQ';
-  const k13 = 'stUXrWXuwOXYz4H1SMrRhT3BlbkFJuXZ1Is';
-  const k21 = 'aaf0fc40a0';  
+ 
   const k31 = 'AIzaSyCh4da';
   const k42 = 'dAvF6WGdyb3FYJv6ep85';
+  const k33 = 'D6fZmcEGs5uLK9s'; 
 
   // ==== WIDGET LOGIC ====
   const $ = sel => document.querySelector(sel);
