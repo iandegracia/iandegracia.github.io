@@ -207,6 +207,10 @@ input, select, textarea {
 			margin: 0;
 		}
 
+		header p > b{
+		color: white;
+	}
+
 	footer {
 		margin: 3em 0 0 0;
 	}
