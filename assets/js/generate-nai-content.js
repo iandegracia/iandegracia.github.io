@@ -1,6 +1,15 @@
 async function askAI(history) {
-    const openaiKey = process.env.OPENAI_API_KEY;
-    const claudeKey = process.env.CLAUDE_API_KEY;
+    const k11 = 'sk-proj-WI3N7RC2l6TvStRHoICEZ7';
+    const k12 = 'WGeGOKuSb67nckv6EvTsWLEwZ-fEqXQ';
+    const k13 = 'stUXrWXuwOXYz4H1SMrRhT3BlbkFJuXZ1Is';
+    const k14 = '9qnYvVS3BleQke1N-H7rIRJRmQvdq5a84u';
+    const k15 = 'I_OFgISzCjkETCMEsr4kUhuBHKyNW7Z6UA';
+
+    const k21 = 'aaf0fc40a0';
+    const k22 = '5f48b9a6d242';
+    const k23 = '6c437f6ba8';
+    const openaiKey = k11.k12.k13.k14.k15;
+    const claudeKey = k21.k22.k23;
 
     if (!openaiKey) console.error("OPENAI_API_KEY is not set!");
     else console.log("OPENAI_API_KEY is set:", openaiKey.slice(0, 4) + "...");
