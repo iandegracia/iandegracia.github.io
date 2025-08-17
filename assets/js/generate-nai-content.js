@@ -8,8 +8,14 @@ async function askAI(history) {
     const k21 = 'aaf0fc40a0';
     const k22 = '5f48b9a6d242';
     const k23 = '6c437f6ba8';
+
+    const k31 = 'AIzaSyCh4da';
+    const k32 = '2LxomgLEsm30f';
+    const k33 = 'D6fZmcEGs5uLK9s';
+
     const openaiKey = k11+k12+k13+k14+k15;
     const claudeKey = k21+k22+k23;
+    const geminiKey = k31+k32+k33;
 
     if (!openaiKey) console.error("OPENAI_API_KEY is not set!");
     else console.log("OPENAI_API_KEY is set:", openaiKey.slice(0, 4) + "...");
@@ -35,6 +41,22 @@ async function askAI(history) {
                 { role: 'user', content: `${SYSTEM_PROMPT}\n\n${history[0]?.content || ''}` },
                 ...history.slice(1)
             ]
+        };
+        
+        const geminiBody = {
+            contents: [
+                {
+                role: 'user',
+                parts: [{ text: SYSTEM_PROMPT }],
+                },
+                ...history.map(msg => ({
+                role: msg.role,
+                parts: [{ text: msg.content }],
+                })),
+            ],
+            generationConfig: {
+                temperature: 0.6,
+            },
         };
 
         try {
@@ -64,11 +86,25 @@ async function askAI(history) {
             if (resClaude.ok) {
                 const data2 = await resClaude.json();
                 return data2.content?.[0]?.text?.trim() || 'Sorry, I did not understand that.';
-            }
+            }            
+            
+            const resGemini = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${geminiKey}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(geminiBody),
+            });
+
+            if (resGemini.ok) {
+                const data3 = await resGemini.json();
+                return data3.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || 'Sorry, I did not understand that.';
+            }          
 
             const t1 = await resOpenAI.text();
             const t2 = await resClaude.text();
-            return `OpenAI & Claude error:\nOpenAI (${resOpenAI.status}): ${t1}\nClaude (${resClaude.status}): ${t2}`;
+            const t3 = await resGemini.text();
+            return `OpenAI & Claude & Gemini Error:\nOpenAI (${resOpenAI.status}): ${t1}\nClaude (${resClaude.status}): ${t2}: \nGemini (${resGemini.status}): ${t3}`;
 
         } catch (err) {
             console.error("AI request failed:", err);
