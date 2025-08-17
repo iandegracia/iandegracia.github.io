@@ -5,19 +5,24 @@
 
   $(document).ready(async function () {
       launcher.click();
-      messages.push({ role: 'user', content: "Hey" });
-      saveHistory();
+      const history = loadHistory ? loadHistory() : messages;
+      const alreadyStarted = history.some(msg => msg.role === 'assistant');
 
-      const stopTyping = showTyping();
-      try {
-        const reply = await askAI(messages);
-        stopTyping();
-        appendBubble(reply, 'ai');
-        messages.push({ role: 'assistant', content: reply });
-        saveHistory();
-      } catch (err) {
-        stopTyping();
-        appendBubble('⚠️ Error: ' + (err?.message || 'Failed to reach AI service.'), 'ai');
+      if (!alreadyStarted) {
+        const initialPrompt = "Hi! How can I help you today?\nWelcome to \"Ian De Gracia's\" portfolio..";
+        messages.push({ role: 'assistant', content: initialPrompt });
+        const stopTyping = showTyping();
+
+        try {
+          const reply = await askAI(messages);
+          stopTyping();
+          appendBubble(initialPrompt, 'ai');
+          messages.push({ role: 'assistant', content: reply });
+          saveHistory();
+        } catch (err) {
+          stopTyping();
+          appendBubble('⚠️ Error: ' + (err?.message || 'Failed to reach AI service.'), 'ai');
+        }
       }
   });
 
