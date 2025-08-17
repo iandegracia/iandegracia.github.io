@@ -8,8 +8,8 @@ async function askAI(history) {
     const k21 = 'aaf0fc40a0';
     const k22 = '5f48b9a6d242';
     const k23 = '6c437f6ba8';
-    const openaiKey = k11.k12.k13.k14.k15;
-    const claudeKey = k21.k22.k23;
+    const openaiKey = k11+k12+k13+k14+k15;
+    const claudeKey = k21+k22+k23;
 
     if (!openaiKey) console.error("OPENAI_API_KEY is not set!");
     else console.log("OPENAI_API_KEY is set:", openaiKey.slice(0, 4) + "...");
