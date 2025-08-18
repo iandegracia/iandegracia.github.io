@@ -34,13 +34,11 @@
 			subject: $('#subject').val(),
 			message: $('#message').val(),
 			_replyto: $('#email').val(),  		// This will be used as the reply-to
-			//_cc: 'kaaka.roots@gmail.com',		// Change to actual CC recipient
 			_honey: '',							// Anti-spam field
 			_captcha: 'false'					// Disable CAPTCHA
 		};
 
 		$.ajax({
-		//url: 'https://formsubmit.co/ajax/kaaka.roots@gmail.com',
 		url: 'https://formsubmit.co/ajax/vinz.iandG@gmail.com',
 		method: 'POST',
 		data: formData,
@@ -52,13 +50,30 @@
 					\nSubject: ${formData.subject}
 					\nMessage: ${formData.message}`);
 
-				$('#formMessage1').html('<span style="color:white;">Message sent successfully!</span>');
-				$('#formMessage2').html('<span style="color:white;">Message sent successfully!</span>')
+				$('#formMessage1').html(`
+					<style>
+						@keyframes blink { 0% {opacity: 1;} 50% {opacity: 0;} 100% {opacity: 1;} }
+					</style><span style="color:white; animation: blink 1s step-start 5;">Message sent successfully!</span>
+				`);
+				$('#formMessage2').html(`
+					<style>
+						@keyframes blink { 0% {opacity: 1;} 50% {opacity: 0;} 100% {opacity: 1;} }
+					</style><span style="color:white; animation: blink 1s step-start 5;">Message sent successfully!</span>
+				`);
 				$('#contactForm')[0].reset();
 			},
 			error: function(error) {
-				$('#formMessage1').html('<span style="color:red;">Failed to send message. Please try again later.</span>');
-				$('#formMessage2').html('<span style="color:red;">Failed to send message. Please try again later.</span>');
+
+				$('#formMessage1').html(`
+					<style>
+						@keyframes blink { 0% {opacity: 1;} 50% {opacity: 0;} 100% {opacity: 1;} }
+					</style><span style="color:red; animation: blink 1s step-start 5;">Failed to send message. Please try again later.</span>
+				`);
+				$('#formMessage2').html(`
+					<style>
+						@keyframes blink { 0% {opacity: 1;} 50% {opacity: 0;} 100% {opacity: 1;} }
+					</style><span style="color:red; animation: blink 1s step-start 5;">Failed to send message. Please try again later.</span>
+				`);
 			}
 		});		
     });
