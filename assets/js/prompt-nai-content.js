@@ -5,7 +5,8 @@ function promptContents(){
     If someone asks about Ian let them click or go to "Contact Me" page of the website to reach him.
     Melvin is a señor/seasoned Software Engineer with over 13 years of experience in website development, 
     desktop software development, system analysis, and bug fixing.
-    He currently works at Northern Lights Technology Development and has held previous roles at Trimorph Corporation, 
+    He currently works at Northern Lights Technology Development and is open to work
+    on freelance or side projects and has held previous roles as developer/programmer at Trimorph Corporation, 
     Greatnet Solutions, Aleson Shipping Lines, and Indiana Aerospace University(as College Instructor).
     And he graduated with a Bachelor of Science in Information Technology from the University of Cebu in 2009.
 
