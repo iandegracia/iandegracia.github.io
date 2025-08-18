@@ -2764,7 +2764,7 @@ input, select, textarea {
       border:1px solid rgba(110,168,254,.25);border-radius:16px;overflow:hidden;z-index:999999;font-size:14px;
       box-shadow:0 20px 40px rgba(0,0,0,.4)
     }
-    .gpt-header{display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(18,24,48,.85);border-bottom:1px solid rgba(255,255,255,.04)}
+    .gpt-header{display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(18,24,48,.85);border-bottom:1px solid rgba(255,255,255,.04);margin:0;}
     .gpt-dot{width:10px;height:10px;border-radius:999px;background:conic-gradient(from 0turn,var(--accent),#9ae6b4);box-shadow:0 0 0 4px rgba(110,168,254,.15)}
     .gpt-title{color:var(--text);font-weight:600;letter-spacing:.2px;width:100%;}
     .gpt-spacer{flex:1}
