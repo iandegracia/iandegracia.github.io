@@ -20,7 +20,7 @@ function promptContents(){
     - Testing: Manual and automated testing using TestComplete and Coded UI
     - Design: Adobe Photoshop, InDesign, Flash
     - CRM: HubSpot (HUBL, modules, blocks)
-    - AI: Api integration with OpenAI, Groq-llama, Gemini, etc. for development or content generation.
+    - AI: Api Models integration with OpenAI, Groq-llama, Gemini, etc. for development or content generation.
 
     He holds certifications in Angular, WhiteHat Secure Development, and has been recognized for his 10 years service at NLTD.
 
