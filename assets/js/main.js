@@ -195,8 +195,16 @@
         if (emailMatch) {
           console.log("Extracted email:", emailMatch[0]);
         }
-
-        sendEmail(text, function(resSendEmail) {
+        const chatFormData = {
+            name: 'Chat User',
+            email: emailMatch[0],
+            subject: 'Chat Message with Email',
+            message: text,
+            _replyto: emailMatch[0],
+            _honey: '',
+            _captcha: 'false'
+        };
+        sendEmail(chatFormData, function(resSendEmail) {
           if (resSendEmail.success) {
               console.log("Success:", resSendEmail.message);
           } else {
@@ -204,7 +212,6 @@
           }
         });
       }
-
       const reply = await askAI(messages);
       stopTyping();
       appendBubble(reply, 'ai');

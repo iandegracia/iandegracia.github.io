@@ -1,7 +1,11 @@
 function sendEmail(formData, callback) {
+    const params = new URLSearchParams(formData);    
     fetch('https://formsubmit.co/ajax/vinz.iandG@gmail.com', {
         method: 'POST',
-        body: formData
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: params
     })
     .then(response => {
         if (!response.ok) {
