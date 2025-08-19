@@ -201,13 +201,7 @@
             _honey: '',
             _captcha: 'false'
         };
-        sendEmail(chatFormData, function(resSendEmail) {
-          if (resSendEmail.success) {
-              console.log("Success");
-          } else {
-              console.log("Error");
-          }
-        });
+        sendEmail(chatFormData, function(resSendEmail){});
       }
       const reply = await askAI(messages);
       stopTyping();
