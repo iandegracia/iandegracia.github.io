@@ -186,7 +186,25 @@
     saveHistory();
 
     const stopTyping = showTyping();
+    const emailRegex = /[^\s@]+@[^\s@]+\.[^\s@]+/;
+
     try{
+      // Check if the message have an email
+      if (emailRegex.test(text)) {
+        const emailMatch = text.match(emailRegex);
+        if (emailMatch) {
+          console.log("Extracted email:", emailMatch[0]);
+        }
+
+        sendEmail(text, function(resSendEmail) {
+          if (resSendEmail.success) {
+              console.log("Success:", resSendEmail.message);
+          } else {
+              console.log("Error:", resSendEmail.message);
+          }
+        });
+      }
+
       const reply = await askAI(messages);
       stopTyping();
       appendBubble(reply, 'ai');

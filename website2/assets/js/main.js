@@ -37,19 +37,10 @@
 			_honey: '',							// Anti-spam field
 			_captcha: 'false'					// Disable CAPTCHA
 		};
-
-		$.ajax({
-		url: 'https://formsubmit.co/ajax/vinz.iandG@gmail.com',
-		method: 'POST',
-		data: formData,
-		dataType: 'json',
-		success: function(response) {
-				//display to confirm data
-				console.log(`Submitted:\nName: ${formData.name}
-					\nEmail: ${formData.email}
-					\nSubject: ${formData.subject}
-					\nMessage: ${formData.message}`);
-
+		
+		sendEmail(formData, function(resSendEmail) {
+			if (resSendEmail.success) {
+				console.log("Success:", resSendEmail.message);
 				$('#formMessage1').html(`
 					<style>
 						@keyframes blink { 0% {opacity: 1;} 50% {opacity: 0;} 100% {opacity: 1;} }
@@ -61,9 +52,8 @@
 					</style><span style="color:white; animation: blink 1s step-start 5;">Message sent successfully!</span>
 				`);
 				$('#contactForm')[0].reset();
-			},
-			error: function(error) {
-
+			} else {
+				console.log("Error:", resSendEmail.message);
 				$('#formMessage1').html(`
 					<style>
 						@keyframes blink { 0% {opacity: 1;} 50% {opacity: 0;} 100% {opacity: 1;} }
@@ -75,7 +65,7 @@
 					</style><span style="color:red; animation: blink 1s step-start 5;">Failed to send message. Please try again later.</span>
 				`);
 			}
-		});		
+		});	
     });
 
 })(jQuery);
