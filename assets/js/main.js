@@ -192,9 +192,6 @@
       // Check if the message have an email
       if (emailRegex.test(text)) {
         const emailMatch = text.match(emailRegex);
-        if (emailMatch) {
-          console.log("Extracted email:", emailMatch[0]);
-        }
         const chatFormData = {
             name: 'Chat User',
             email: emailMatch[0],
@@ -206,9 +203,9 @@
         };
         sendEmail(chatFormData, function(resSendEmail) {
           if (resSendEmail.success) {
-              console.log("Success:", resSendEmail.message);
+              console.log("Success");
           } else {
-              console.log("Error:", resSendEmail.message);
+              console.log("Error");
           }
         });
       }

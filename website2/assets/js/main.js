@@ -40,7 +40,6 @@
 		
 		sendEmail(formData, function(resSendEmail) {
 			if (resSendEmail.success) {
-				console.log("Success:", resSendEmail.message);
 				$('#formMessage1').html(`
 					<style>
 						@keyframes blink { 0% {opacity: 1;} 50% {opacity: 0;} 100% {opacity: 1;} }
