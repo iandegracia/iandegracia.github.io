@@ -196,13 +196,14 @@
             name: 'Chat User',
             email: emailMatch[0],
             subject: 'Chat Message with Email',
-            message: text,
+            message: messages.map(m => `${m.role === 'user' ? 'User' : 'AI'}: ${m.content}`).join('\n\n'),
             _replyto: emailMatch[0],
             _honey: '',
             _captcha: 'false'
         };
         sendEmail(chatFormData, function(resSendEmail){});
       }
+
       const reply = await askAI(messages);
       stopTyping();
       appendBubble(reply, 'ai');
