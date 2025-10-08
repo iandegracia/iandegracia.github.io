@@ -6,22 +6,16 @@ async function askAI(history) {
     const geminiKey = k31+k32+k33;
     const groqKey = k41+k42+k43;
 
-    // if (!geminiKey) console.error("GEMINI_API_KEY is not set!");
-    // else console.log("GEMINI_API_KEY is set:", geminiKey.slice(2, 6) + "...");
-
-    // if (!groqKey) console.error("GROQ_API_KEY is not set!");
-    // else console.log("GROQ_API_KEY is set:", groqKey.slice(2, 6) + "...");
-
     if (USE_DIRECT_OPENAI) {
-        
+
         const geminiBody = {
             contents: [
                 {
-                role: 'user',
+                role: "user",
                 parts: [{ text: SYSTEM_PROMPT }],
                 },
                 ...history.map(msg => ({
-                role: msg.role,
+                role: msg.role === "model" ? "model" : "user",
                 parts: [{ text: msg.content }],
                 })),
             ],
@@ -31,7 +25,8 @@ async function askAI(history) {
         };
 
         const groqBody = {
-            model: "llama3-70b-8192",
+            //model: "llama3-70b-8192",
+            model: "llama3-8b-8192",
             messages: [{ role: 'system', content: SYSTEM_PROMPT }, ...history],
             temperature: 0.6,
             max_tokens: 2048
@@ -51,8 +46,8 @@ async function askAI(history) {
                 const data4 = await resGroq.json();
                 return data4.choices?.[0]?.message?.content?.trim() || 'Sorry, I did not understand that.';
             } 
-            
-            const resGemini = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${geminiKey}`, {
+
+            const resGemini = await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=${geminiKey}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
