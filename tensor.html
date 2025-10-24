@@ -37,62 +37,82 @@
 
                         <script>
                             const TensorMsgs = JSON.parse(localStorage.getItem('TensorMsgs')) || {};
-                            const outputEl = document.getElementById('summary-output');
+                            const outputEl = document.getElementById('summary-output');                           
+
+                            // Animate "Loading summary..."
+                            let loadingInterval;
+                            function startLoadingAnimation() {
+                                let dots = 0;
+                                outputEl.innerHTML = `<p><strong>Loading summary</strong><span id="loading-dots"></span></p>`;
+                                const dotsEl = document.getElementById('loading-dots');
+
+                                loadingInterval = setInterval(() => {
+                                dots = (dots + 1) % 6; // cycle 0–5 dots
+                                dotsEl.textContent = '.'.repeat(dots);
+                                }, 300); // update every 0.3s
+                            }
+
+                            function stopLoadingAnimation() {
+                                clearInterval(loadingInterval);
+                            }
 
                             async function loadSummary() {
                                 try {
-                                const summary = await summarizeText(TensorMsgs);
+                                    startLoadingAnimation();
+                                    const summary = await summarizeText(TensorMsgs);                                    
 
-                                if (!summary || typeof summary !== 'object') {
-                                    outputEl.innerHTML = '<p>No summary data available.</p>';
-                                    return;
-                                }
-                                // console.log("SEE HERE");
-                                // console.log(summary);
-                                // console.log("SEE HERE"); 
-
-                                const summaryText = (summary.text || "").replace(/\n/g, '<br>');
-
-                                outputEl.innerHTML = `
-                                    <h2>Tensor Summary</h2>
-                                    <p><strong>Summary:</strong> ${summary.summary}</p>
-                                    <p><strong>Sentiment:</strong> ${summary.sentiment ?? 'N/A'}</p>
-                                    <p><strong>Intent:</strong> ${summary.intent ?? 'N/A'}</p>
-                                    <p><strong>Total Messages:</strong> ${summary.totalMessages ?? 0}</p>
-
-                                    <h3>Scores</h3>
-                                    <ul>
-                                    ${summary.scores 
-                                        ? Object.entries(summary.scores)
-                                            .map(([key, value]) => `<li>Sentence ${key}: ${value.toFixed(4)}</li>`)
-                                            .join('')
-                                        : '<li>No scores available.</li>'}
-                                    </ul>
-
-                                    <h3>Ranked Sentences</h3>
-                                    ${
-                                    summary.ranked && summary.ranked.length > 0
-                                        ? `<table border="1" cellpadding="5" style="border-collapse: collapse;">
-                                            <tr><th>Sentence</th><th>Score</th></tr>
-                                            ${summary.ranked
-                                            .map(r => `<tr><td>${r.sentence}</td><td>${r.score.toFixed(4)}</td></tr>`)
-                                            .join('')}
-                                        </table>`
-                                        : '<p>No ranked sentences available.</p>'
+                                    if (!summary || typeof summary !== 'object') {
+                                        //stopLoadingAnimation();
+                                        outputEl.innerHTML = '<p>No summary data available.</p>';
+                                        return;
                                     }
+                                    // console.log("SEE HERE");
+                                    // console.log(summary);
+                                    // console.log("SEE HERE"); 
 
-                                    <br><br>
-                                    <h2>Tensor: Raw Object {}</h2>
-                                    <pre>${JSON.stringify(summary, null, 2)}</pre>
-                                `;
+                                    outputEl.innerHTML = `
+                                        <h2>Tensor Summary</h2>
+                                        <p><strong>Summary:</strong> ${summary.summary}</p>
+                                        <p><strong>Sentiment:</strong> ${summary.sentiment ?? 'N/A'}</p>
+                                        <p><strong>Intent:</strong> ${summary.intent ?? 'N/A'}</p>
+                                        <p><strong>Total Messages:</strong> ${summary.totalMessages ?? 0}</p>
+
+                                        <h3>Scores</h3>
+                                        <ul>
+                                        ${summary.scores 
+                                            ? Object.entries(summary.scores)
+                                                .map(([key, value]) => `<li>Sentence ${key}: ${value.toFixed(4)}</li>`)
+                                                .join('')
+                                            : '<li>No scores available.</li>'}
+                                        </ul>
+
+                                        <h3>Ranked Sentences</h3>
+                                        ${
+                                        summary.ranked && summary.ranked.length > 0
+                                            ? `<table border="1" cellpadding="5" style="border-collapse: collapse;">
+                                                <tr><th>Sentence</th><th>Score</th></tr>
+                                                ${summary.ranked
+                                                .map(r => `<tr><td>${r.sentence}</td><td>${r.score.toFixed(4)}</td></tr>`)
+                                                .join('')}
+                                            </table>`
+                                            : '<p>No ranked sentences available.</p>'
+                                        }
+
+                                        <br><br>
+                                        <h2>Tensor: Raw Object {}</h2>
+                                        <pre>${JSON.stringify(summary, null, 2)}</pre>
+                                    `;   
+                                    //stopLoadingAnimation(); 
+                                    //setTimeout(stopLoadingAnimation, 1000);                                
                                 } catch (err) {
+                                    //stopLoadingAnimation();
                                     console.error('Error generating summary:', err);
                                     outputEl.innerHTML = '<p>Error generating summary. Check console for details.</p>';
                                 }
                             }
 
                             //Run async loadSummary()
-                            loadSummary();
+                            loadSummary();                            
                         </script>
                             
                     </div>
