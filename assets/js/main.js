@@ -204,6 +204,13 @@
         sendEmail(chatFormData, function(resSendEmail){});
       }
 
+      localStorage.setItem('TensorMsgs', JSON.stringify(messages.map(m => `${m.role === 'user' ? 'User' : 'AI'}: ${m.content}`).join('\n\n')));
+      // (async () => {
+      //   const summary = await summarizeText(messages.map(m => `${m.role === 'user' ? 'User' : 'AI'}: ${m.content}`).join('\n\n'));
+      //   localStorage.setItem('TensorMsgs', JSON.stringify(summary));
+      //   //console.log(summary);
+      // })();
+
       const reply = await askAI(messages);
       stopTyping();
       appendBubble(reply, 'ai');
