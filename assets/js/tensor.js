@@ -1,7 +1,17 @@
+let modelPromise;
+
+async function getModel() {
+    if (!modelPromise) {
+        modelPromise = use.load();
+    }
+    return modelPromise;
+}
+
 async function summarizeText(content) {
 
     // Load the universal sentence encoder model
-    const model = await use.load();
+    const model = await getModel(); 
+    //const model = await use.load();
 
     let sentences = [];
 
@@ -27,13 +37,14 @@ async function summarizeText(content) {
         throw new Error("No valid text found for analysis.");
     }
 
-    // Generate embeddings
+    //Generate embeddings
     const embeddings = await model.embed(sentences);
     const meanEmbedding = embeddings.mean(0);
+    const expanded = meanEmbedding.expandDims(1);
+    const scoresTensor = embeddings.matMul(expanded);
 
     // Rank sentences by similarity to the mean embedding
     const scores = await embeddings.matMul(meanEmbedding.expandDims(1)).data();
-
     const ranked = sentences.map((s, i) => ({ sentence: s, score: scores[i] }));
 
     const keySentences = ranked
@@ -63,6 +74,11 @@ async function summarizeText(content) {
     } else if (textCombined.match(/connect|reach|get|touch|talk|speak|message|contact/)) {
         intent = 'contact_request';
     }
+
+    embeddings.dispose();
+    meanEmbedding.dispose();
+    expanded.dispose();
+    scoresTensor.dispose();
 
     return {
         summary: keySentences.join('. ') + '.',

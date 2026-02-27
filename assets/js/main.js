@@ -4,7 +4,7 @@
 		$body = $('body');
 
   $(document).ready(async function () {
-      launcher.click();
+      if (typeof launcher === 'object' && launcher instanceof Element) launcher.click()
       const history = loadHistory ? loadHistory() : messages;
       const alreadyStarted = history.some(msg => msg.role === 'assistant');
 
@@ -160,67 +160,69 @@
   let messages = loadHistory();
   if(messages.length){ renderAll(); }
 
-  launcher.addEventListener('click', ()=>{
-    panelEl.style.display = panelEl.style.display === 'block' ? 'none' : 'block';
-    if(panelEl.style.display === 'block') input.focus();
-  });
-  closeBtn.addEventListener('click', ()=> panelEl.style.display = 'none');
+  if (typeof launcher === 'object' && launcher instanceof Element){
+    launcher.addEventListener('click', ()=>{
+      panelEl.style.display = panelEl.style.display === 'block' ? 'none' : 'block';
+      if(panelEl.style.display === 'block') input.focus();
+    });
+    closeBtn.addEventListener('click', ()=> panelEl.style.display = 'none');  
 
-  clearBtn.addEventListener('click', ()=>{
-    if(confirm('Clear this conversation?')){
-      messages = [];
-      saveHistory();
-      logEl.innerHTML = '<div class="gpt-empty">Conversation cleared.</div>';
-    }
-  });
-
-  form.addEventListener('submit', async (e)=>{
-    e.preventDefault();
-    const text = input.value.trim();
-    if(!text) return;
-
-    appendBubble(text, 'me');
-    input.value = '';
-
-    messages.push({role:'user', content:text});
-    saveHistory();
-
-    const stopTyping = showTyping();
-    const emailRegex = /[^\s@]+@[^\s@]+\.[^\s@]+/;
-
-    try{
-      // Check if the message have an email
-      if (emailRegex.test(text)) {
-        const emailMatch = text.match(emailRegex);
-        const chatFormData = {
-            name: 'Chat User',
-            email: emailMatch[0],
-            subject: 'Chat Message with Email',
-            message: messages.map(m => `${m.role === 'user' ? 'User' : 'AI'}: ${m.content}`).join('\n\n'),
-            _replyto: emailMatch[0],
-            _honey: '',
-            _captcha: 'false'
-        };
-        sendEmail(chatFormData, function(resSendEmail){});
+    clearBtn.addEventListener('click', ()=>{
+      if(confirm('Clear this conversation?')){
+        messages = [];
+        saveHistory();
+        logEl.innerHTML = '<div class="gpt-empty">Conversation cleared.</div>';
       }
+    });
 
-      localStorage.setItem('TensorMsgs', JSON.stringify(messages.map(m => `${m.role === 'user' ? 'User' : 'AI'}: ${m.content}`).join('\n\n')));
-      // (async () => {
-      //   const summary = await summarizeText(messages.map(m => `${m.role === 'user' ? 'User' : 'AI'}: ${m.content}`).join('\n\n'));
-      //   localStorage.setItem('TensorMsgs', JSON.stringify(summary));
-      //   //console.log(summary);
-      // })();
+    form.addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const text = input.value.trim();
+      if(!text) return;
 
-      const reply = await askAI(messages);
-      stopTyping();
-      appendBubble(reply, 'ai');
-      messages.push({role:'assistant', content:reply});
+      appendBubble(text, 'me');
+      input.value = '';
+
+      messages.push({role:'user', content:text});
       saveHistory();
-    }catch(err){
-      stopTyping();
-      appendBubble('⚠️ Error: '+ (err?.message || 'Failed to reach AI service.'), 'ai');
-    }
-  });
+
+      const stopTyping = showTyping();
+      const emailRegex = /[^\s@]+@[^\s@]+\.[^\s@]+/;
+
+      try{
+        // Check if the message have an email
+        if (emailRegex.test(text)) {
+          const emailMatch = text.match(emailRegex);
+          const chatFormData = {
+              name: 'Chat User',
+              email: emailMatch[0],
+              subject: 'Chat Message with Email',
+              message: messages.map(m => `${m.role === 'user' ? 'User' : 'AI'}: ${m.content}`).join('\n\n'),
+              _replyto: emailMatch[0],
+              _honey: '',
+              _captcha: 'false'
+          };
+          sendEmail(chatFormData, function(resSendEmail){});
+        }
+
+        localStorage.setItem('TensorMsgs', JSON.stringify(messages.map(m => `${m.role === 'user' ? 'User' : 'AI'}: ${m.content}`).join('\n\n')));
+        // (async () => {
+        //   const summary = await summarizeText(messages.map(m => `${m.role === 'user' ? 'User' : 'AI'}: ${m.content}`).join('\n\n'));
+        //   localStorage.setItem('TensorMsgs', JSON.stringify(summary));
+        //   //console.log(summary);
+        // })();
+
+        const reply = await askAI(messages);
+        stopTyping();
+        appendBubble(reply, 'ai');
+        messages.push({role:'assistant', content:reply});
+        saveHistory();
+      }catch(err){
+        stopTyping();
+        appendBubble('⚠️ Error: '+ (err?.message || 'Failed to reach AI service.'), 'ai');
+      }
+    });
+  }
 
   function appendBubble(text, who){
     const row = document.createElement('div');
@@ -234,7 +236,8 @@
     logEl.scrollTop = logEl.scrollHeight;
   }
 
-  function renderAll(){
+  function renderAll(){    
+    if (!logEl) return;
     logEl.innerHTML = '';
     for(const m of messages){ appendBubble(m.content, m.role==='user'?'me':'ai'); }
   }

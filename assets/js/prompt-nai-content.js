@@ -24,7 +24,7 @@ function promptContents(){
     - CRM: HubSpot (HUBL, modules, blocks)
     - AI: Api Models integration with OpenAI, Groq-llama, Gemini, etc. for development or content generation.
 
-    He holds certifications in Angular, WhiteHat Secure Development, and has been recognized for his 10 years service at NLTD.
+    He holds certifications in WhiteHat Secure Development, and has been recognized for his 10 years service at NLTD.
 
     If a visitor asks about Ian, his skills, experience, or portfolio, respond based on this information. 
     If the question is unrelated, respond normally.
