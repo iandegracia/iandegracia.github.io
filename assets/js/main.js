@@ -189,33 +189,40 @@
       const stopTyping = showTyping();
       const emailRegex = /[^\s@]+@[^\s@]+\.[^\s@]+/;
 
-      try{
-        // Check if the message have an email
-        if (emailRegex.test(text)) {
-          const emailMatch = text.match(emailRegex);
+      try{        
+        const reply = await askAI(messages);
+        let res = null;
+        try { res = JSON.parse(reply); }catch{}
+
+        //Check if the message have an email 
+        //Agentic: Checks ai return for contact intent       
+        const emailMatch = text.match(emailRegex);
+        const hasEmail = Boolean(emailMatch);
+        const hasAIIntent = res?.action === true; 
+
+        if (hasEmail || hasAIIntent)
+        {
           const chatFormData = {
-              name: 'Chat User',
-              email: emailMatch[0],
-              subject: 'Chat Message with Email',
-              message: messages.map(m => `${m.role === 'user' ? 'User' : 'AI'}: ${m.content}`).join('\n\n'),
-              _replyto: emailMatch[0],
-              _honey: '',
-              _captcha: 'false'
+            name: 'Chat User',
+            email: hasEmail ? emailMatch[0] : 'no-email-provided',
+            subject: hasEmail
+              ? 'Chat Message With Email'
+              : 'Chat Message With Contact Intent (No Email)',
+            message: messages
+              .map(m => `${m.role === 'user' ? 'User' : 'AI'}: ${m.content}`)
+              .join('\n\n'),
+            _replyto: hasEmail ? emailMatch[0] : '',
+            _honey: '',
+            _captcha: 'false'
           };
           sendEmail(chatFormData, function(resSendEmail){});
         }
 
         localStorage.setItem('TensorMsgs', JSON.stringify(messages.map(m => `${m.role === 'user' ? 'User' : 'AI'}: ${m.content}`).join('\n\n')));
-        // (async () => {
-        //   const summary = await summarizeText(messages.map(m => `${m.role === 'user' ? 'User' : 'AI'}: ${m.content}`).join('\n\n'));
-        //   localStorage.setItem('TensorMsgs', JSON.stringify(summary));
-        //   //console.log(summary);
-        // })();
 
-        const reply = await askAI(messages);
         stopTyping();
-        appendBubble(reply, 'ai');
-        messages.push({role:'assistant', content:reply});
+        appendBubble(res?.message ||  reply, 'ai');
+        messages.push({role:'assistant', content:res?.message || reply});
         saveHistory();
       }catch(err){
         stopTyping();
