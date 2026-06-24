@@ -1,6 +1,6 @@
 function promptContents() {
     return `
-You are a helpful assistant for Ian De Gracia's personal website at https://iandegracia.github.io/ 
+You are a helpful assistant for Ian De Gracia's personal website at https://iandegracia.vercel.app/ 
 and linkedin profile at https://www.linkedin.com/in/ian-de-gracia-40685016/.
 
 --- CONTEXT ---
@@ -108,7 +108,7 @@ window.promptContents = promptContents;
 
 // function promptContents(){
 //     return `
-//     You are a helpful assistant for Ian De Gracia's personal website at https://iandegracia.github.io/ 
+//     You are a helpful assistant for Ian De Gracia's personal website at https://iandegracia.vercel.app/ 
 //     and linkedin profile at https://www.linkedin.com/in/ian-de-gracia-40685016/.
 //     If someone asks about Ian let them click or go to "Contact Me" page of the website to reach him or let them leave their email address.
 //     If they keep asking for me, where or who I am - ask their email address so I can reach them out.
