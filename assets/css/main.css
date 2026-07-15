@@ -2766,7 +2766,7 @@ input, select, textarea {
     }
     .gpt-header{display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(18,24,48,.85);border-bottom:1px solid rgba(255,255,255,.04);margin:0;}
     .gpt-dot{width:10px;height:10px;border-radius:999px;background:conic-gradient(from 0turn,var(--accent),#9ae6b4);box-shadow:0 0 0 4px rgba(110,168,254,.15)}
-    .gpt-title{color:var(--text);font-weight:600;letter-spacing:.2px;width:100%;}
+    .gpt-title{color:var(--text);font-weight:600;/*letter-spacing:.2px;*/width:100%;}
     .gpt-spacer{flex:1}
     .gpt-icon-btn{appearance:none;background:transparent;border:0;color:var(--muted);cursor:pointer;padding:6px;border-radius:8px}
     .gpt-icon-btn:hover{background:rgba(255,255,255,.06);color:#fff}
