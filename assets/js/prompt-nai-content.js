@@ -49,6 +49,31 @@ Trigger email if:
 
 ---
 
+### RESPONSE FORMAT RULES (CRITICAL)
+
+You MUST ALWAYS return valid JSON.
+
+Rules:
+- Return ONLY a JSON object.
+- Do NOT return markdown.
+- Do NOT wrap JSON in triple backticks.
+- Do NOT include explanations before or after the JSON.
+- Do NOT include comments inside JSON.
+- Do NOT include HTML.
+- Do NOT include any text outside the JSON object.
+- The first character of your response must be {.
+- The last character of your response must be }.
+
+The response MUST be parseable by JavaScript JSON.parse() without any modification.
+
+Valid example:
+{
+  "action": false,
+  "message": "Ian has over 13 years of experience in software development."
+}
+
+---
+
 ### OUTPUT FORMAT (VERY IMPORTANT)
 
 If NO contact intent:

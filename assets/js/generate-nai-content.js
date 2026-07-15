@@ -46,7 +46,7 @@ async function askAI(history) {
             if (resGroq.ok) {
                 const data4 = await resGroq.json();
                 return data4.choices?.[0]?.message?.content?.trim() || 'Sorry, I did not understand that.';
-            } 
+            }
 
             const resGemini = await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=${geminiKey}`, {
                 method: 'POST',
@@ -57,9 +57,26 @@ async function askAI(history) {
             });
 
             if (resGemini.ok) {
-                const data3 = await resGemini.json();
-                return data3.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || 'Sorry, I did not understand that.';
-            }          
+                // const data3 = await resGemini.json();
+                // return data3.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || 'Sorry, I did not understand that.';
+                const data = await resGemini.json();
+                const cleaned =
+                    (data?.candidates ?? [])
+                        .flatMap(c => c?.content?.parts ?? [])
+                        .map(p => p?.text ?? '')
+                        .join('\n')
+                        .replace(/^```(?:json)?\s*/i, '')
+                        .replace(/\s*```$/, '')
+                        .trim();
+
+                try {
+                    JSON.parse(cleaned);
+                    return cleaned;
+                }
+                catch {
+                    return 'Sorry, I did not understand that';
+                }
+            }  
 
             const t3 = await resGemini.text();
             const t4 = await resGroq.text();
