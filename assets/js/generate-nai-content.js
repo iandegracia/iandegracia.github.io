@@ -8,22 +8,29 @@ async function askAI(history) {
 
     if (USE_DIRECT_OPENAI) {
 
+        // Gemini from Google
+        const geminiHistory = history
+            .filter(msg =>
+                msg && typeof msg.content === "string" && msg.content.trim().length > 0)
+            .map(msg => ({
+                role: msg.role === "assistant" ? "model" : "user",
+                parts: [{text: msg.content.trim()}]
+        }));
+
         const geminiBody = {
             contents: [
                 {
-                role: "user",
-                parts: [{ text: SYSTEM_PROMPT }],
+                    role: "user",
+                    parts: [{text: SYSTEM_PROMPT}]
                 },
-                ...history.map(msg => ({
-                role: msg.role === "model" ? "model" : "user",
-                parts: [{ text: msg.content }],
-                })),
+                ...geminiHistory
             ],
             generationConfig: {
-                temperature: 0.6,
-            },
+                temperature: 0.6
+            }
         };
 
+        //llama3 from meta - facebook
         const groqBody = {
             //model: "llama3-70b-8192",
             //model: "llama3-8b-8192",
@@ -31,6 +38,20 @@ async function askAI(history) {
             messages: [{ role: 'system', content: SYSTEM_PROMPT }, ...history],
             temperature: 0.6,
             max_tokens: 2048
+        };
+
+        //Qwen from Alibaba Cloud
+        const groqBodyQwen = {
+            model: "qwen/qwen3.6-27b",
+            messages: [
+                { role: "system", content: SYSTEM_PROMPT },
+                ...history
+            ],
+            temperature: 0.1,
+            response_format: {
+                type: "json_object"
+            },
+            max_tokens: 1024
         };
 
         try { 
@@ -78,10 +99,25 @@ async function askAI(history) {
                 }
             }  
 
+            const resGroqQwen = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${groqKey}`,
+                },
+                body: JSON.stringify(groqBodyQwen),
+            });
+
+            if (resGroqQwen.ok) {
+                const data4 = await resGroq.json();
+                return data4.choices?.[0]?.message?.content?.trim() || 'Sorry, I did not understand that.';
+            }
+
             const t3 = await resGemini.text();
             const t4 = await resGroq.text();
+            const t5 = await resGroqQwen.text();
 
-            return `Gemini & Groq Error: \nGemini (${resGemini.status}): ${t3}\nGroq (${resGroq.status}): ${t4}`;
+            return `Gemini & Groq Error: \nGemini (${resGemini.status}): ${t3}\nGroq (${resGroq.status}): ${t4}\nQwen (${resGroqQwen.status}): ${t5}`;
 
         } catch (err) {
             console.error("AI request failed:", err);
