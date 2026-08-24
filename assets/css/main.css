@@ -2741,7 +2741,7 @@ input, select, textarea {
   	/* === GPT POPUP CHAT WIDGET === */
 	:root{
       --bg:#0b1020; --card:#121830; --accent:#6ea8fe; --muted:#a8b3cf; --text:#eaf0ff;
-      --ring: rgba(110,168,254,.5);
+      --ring: rgba(110,168,254,.5); --fb-active:#31a24c; --fb-active-hover:#36b352;
     }
     *{box-sizing:border-box}
     /* body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,'Helvetica Neue',sans-serif;background:transparent} */
@@ -2764,9 +2764,9 @@ input, select, textarea {
       border:1px solid rgba(110,168,254,.25);border-radius:16px;overflow:hidden;z-index:999999;font-size:14px;
       box-shadow:0 20px 40px rgba(0,0,0,.4)
     }
-    .gpt-header{display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(18,24,48,.85);border-bottom:1px solid rgba(255,255,255,.04);margin:0;}
-    .gpt-dot{width:10px;height:10px;border-radius:999px;background:conic-gradient(from 0turn,var(--accent),#9ae6b4);box-shadow:0 0 0 4px rgba(110,168,254,.15)}
-    .gpt-title{color:var(--text);font-weight:600;letter-spacing:.2px;width:200%;}
+    .gpt-header{display:flex;align-items:center;gap:5px;padding:10px 12px;background:rgba(18,24,48,.85);border-bottom:1px solid rgba(255,255,255,.04);margin:0;}
+    .gpt-dot{width:20px;height:10px;border-radius:999px;background:conic-gradient(from 0turn,var(--fb-active),#9ae6b4);box-shadow:0 0 0 4px rgba(110,168,254,.15)}
+    .gpt-title{color:var(--text);font-weight:500;letter-spacing:.2px;width:350%;}
     .gpt-spacer{flex:1}
     .gpt-icon-btn{appearance:none;background:transparent;border:0;color:var(--muted);cursor:pointer;padding:6px;border-radius:8px}
     .gpt-icon-btn:hover{background:rgba(255,255,255,.06);color:#fff}
@@ -2784,7 +2784,7 @@ input, select, textarea {
     .gpt-input{flex:1;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);color:var(--text);
       padding:10px 12px;border-radius:12px;outline:none}
     .gpt-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--ring)}
-    .gpt-send{background:var(--accent);color:#0b1020;border:0;padding:10px 14px;border-radius:12px;font-weight:600;cursor:pointer}
+    .gpt-send{background:var(--accent);color:#0b1020;border:0;padding:10px 14px;border-radius:12px;font-weight:600;cursor:pointer; width: 25%;}
     .gpt-send:disabled{opacity:.6;cursor:not-allowed}
 
     .gpt-typing{display:inline-flex;gap:4px;align-items:center}
