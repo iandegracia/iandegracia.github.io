@@ -143,7 +143,7 @@
   const SYSTEM_PROMPT = promptContents(); // Use the function to get the system prompt
  
   const k31 = 'AIzaSyCh4da';
-  const k42 = 'dAvF6WGdyb3FYJv6ep85';
+  const k42 = 'KAWGdyb3FYTk40EZdka3';
   const k33 = 'D6fZmcEGs5uLK9s'; 
 
   // ==== WIDGET LOGIC ====

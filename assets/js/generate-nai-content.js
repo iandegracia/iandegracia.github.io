@@ -1,8 +1,8 @@
 async function askAI(history) {
     
-    const k41 = 'gsk_UGu1NgE6pvCQrCU';   
+    const k41 = 'gsk_mjUDf7KcfBfvF0RHxl';
     const k32 = '2LxomgLEsm30f';  
-    const k43 = 'NvywVD5deTo96VDLR';
+    const k43 = 'Ye39C1qVvZjFr4';
     const geminiKey = k31+k32+k33;
     const groqKey = k41+k42+k43;
 
@@ -30,11 +30,12 @@ async function askAI(history) {
             }
         };
 
-        //llama3 from meta - facebook
+        //openai - llama
         const groqBody = {
-            //model: "llama3-70b-8192",
-            //model: "llama3-8b-8192",
-            model: "llama-3.1-8b-instant",
+            //model: "llama3-70b-8192",            
+            //model: "llama-3.1-8b-instant",
+            //model: "llama-3.3-70b-versatile",
+            model: "openai/gpt-oss-120b",
             messages: [{ role: 'system', content: SYSTEM_PROMPT }, ...history],
             temperature: 0.6,
             max_tokens: 2048
